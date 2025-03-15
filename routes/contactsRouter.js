@@ -1,4 +1,9 @@
 import express from "express";
+import ctrlWrapper from "../decorators/ctrlWrapper.js";
+import validateBody from "../decorators/validateBody.js";
+
+import { createContactSchema, updateContactSchema } from "../schemas/contactsSchemas.js";
+
 import {
   getAllContacts,
   getOneContact,
@@ -9,14 +14,14 @@ import {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", getAllContacts);
+contactsRouter.get("/", ctrlWrapper(getAllContacts));
 
-contactsRouter.get("/:id", getOneContact);
+contactsRouter.get("/:id", ctrlWrapper(getOneContact));
 
-contactsRouter.delete("/:id", deleteContact);
+contactsRouter.delete("/:id", ctrlWrapper(deleteContact));
 
-contactsRouter.post("/", createContact);
+contactsRouter.post("/", validateBody(createContactSchema), ctrlWrapper(createContact));
 
-contactsRouter.put("/:id", updateContact);
+contactsRouter.put("/:id", validateBody(updateContactSchema), ctrlWrapper(updateContact));
 
 export default contactsRouter;
