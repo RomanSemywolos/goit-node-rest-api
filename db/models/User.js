@@ -1,47 +1,31 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../Sequelize.js";
+import { emailRegexp } from "../../constants/auth.js";
 
-const User = sequelize.define("Contact", {
-  name: {
+const User = sequelize.define("User", {
+  password: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      notNull: {
-        msg: "name must be exist"
-      },
-      notEmpty: {
-        msg: "name cannot be empty"
-      }
-    }
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      notNull: {
-        msg: "email must be exist"
-      },
-      notEmpty: {
-        msg: "email cannot be empty"
-      }
-    }
+    validate:{
+        is: emailRegexp,
+    },
+    unique: true,
   },
-  phone: {
+  subscription: {
+    type: DataTypes.ENUM,
+    values: ["starter", "pro", "business"],
+    defaultValue: "starter",
+  },
+  token: {
     type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "phone must be exist"
-      },
-      notEmpty: {
-        msg: "phone cannot be empty"
-      }
-    }
-  },
-  favorite: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+    defaultValue: null,
   },
 });
+
+// User.sync({ alter: true });
 
 export default User;
