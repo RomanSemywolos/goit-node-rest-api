@@ -1,3 +1,4 @@
+import gravatar from "gravatar";
 import User from "../db/models/User.js";
 import bcrypt from "bcrypt";
 
@@ -28,8 +29,13 @@ export const signupUser = async (payload) => {
   if (user) {
     throw HttpError(409, "Email in use");
   }
+  const avatarURL = gravatar.url(email, { s: "250" }, true);
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...payload, password: hashPassword });
+  const newUser = await User.create({
+    ...payload,
+    password: hashPassword,
+    avatarURL,
+  });
   return newUser;
 };
 
