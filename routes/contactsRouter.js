@@ -2,7 +2,7 @@ import express from "express";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import validateBody from "../decorators/validateBody.js";
 
-import { createContactSchema, updateContactSchema } from "../schemas/contactsSchemas.js";
+import { createContactSchema, updateContactSchema, updateStatusContactSchema } from "../schemas/contactsSchemas.js";
 
 import {
   getAllContacts,
@@ -10,6 +10,7 @@ import {
   deleteContact,
   createContact,
   updateContact,
+  updateStatusContact,
 } from "../controllers/contactsControllers.js";
 
 const contactsRouter = express.Router();
@@ -23,5 +24,7 @@ contactsRouter.delete("/:id", ctrlWrapper(deleteContact));
 contactsRouter.post("/", validateBody(createContactSchema), ctrlWrapper(createContact));
 
 contactsRouter.put("/:id", validateBody(updateContactSchema), ctrlWrapper(updateContact));
+
+contactsRouter.patch("/:id/favorite", validateBody(updateStatusContactSchema), ctrlWrapper(updateStatusContact));
 
 export default contactsRouter;
