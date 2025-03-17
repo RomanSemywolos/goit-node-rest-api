@@ -10,8 +10,8 @@ const User = sequelize.define("User", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate:{
-        is: emailRegexp,
+    validate: {
+      is: emailRegexp,
     },
     unique: true,
   },
@@ -21,6 +21,14 @@ const User = sequelize.define("User", {
     defaultValue: "starter",
   },
   avatarURL: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  verify: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  verificationToken: {
     type: DataTypes.STRING,
     allowNull: true,
   },
