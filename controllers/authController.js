@@ -13,6 +13,22 @@ export const signup = async (req, res) => {
   });
 };
 
+export const verify = async (req, res) => {
+  const {verificationToken} = req.params;
+  await authServices.verifyUser(verificationToken);
+  res.json({
+    message: 'Verification successful',
+  });
+};
+
+export const reSendVerify = async (req, res) => {
+  const { email } = req.body;
+  await authServices.reSendVerifyEmail(email);
+  res.json({
+    "message": "Verification email sent"
+  });
+};
+
 export const signin = async (req, res) => {
   const result = await authServices.signinUser(req.body);
   res.json({
